@@ -1,5 +1,4 @@
-# writco-backend
-Fontys UAS Open Learning S7
+*Fontys UAS Open Learning S7*
 # Project
 I have interests in various domains, but this semester I decided to focus on the film industry(my second passion) for my personal project, so I will get right into it. I am a big fan of the process of creating a movie and all the different responsibilities. One particular area fascinates me the most: screenwriting and producing a combination of different aspects such as combining dialogue or scene with soundtrack. Therefore, I came up with an idea for a web app sort of community for such professionals within the film industry. 
 ## Description(Initial Concept):
