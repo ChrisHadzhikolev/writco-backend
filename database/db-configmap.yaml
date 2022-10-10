@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-init-mysql
+  namespace: writco-def
+data:
+  initdb.sql: |-
+    CREATE DATABASE IF NOT EXISTS `articles`;
+    CREATE DATABASE IF NOT EXISTS `soundtracks`;
+    CREATE DATABASE IF NOT EXISTS `categories`;
+    CREATE DATABASE IF NOT EXISTS `ratings`;
+    CREATE DATABASE IF NOT EXISTS `comments`;
+    CREATE DATABASE IF NOT EXISTS `support_requests`;
+    CREATE DATABASE IF NOT EXISTS `followers`;
+    CREATE DATABASE IF NOT EXISTS `users`;

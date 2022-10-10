@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+  namespace: writco-def
+type: Opaque
+data:
+  db-user-username: d3JpdGNvLWFkbWlu
+  db-user-password: Z2ZoZGZVWVRGVXV2amR5VVZZZHZ2ZHV5ZHZZdXZVVmQ2NzNe
+
