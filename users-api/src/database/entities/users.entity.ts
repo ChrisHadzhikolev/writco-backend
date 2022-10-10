@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../../auth/enum/roles.enum';
 
 @Entity()
-export class Users {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -25,5 +25,5 @@ export class Users {
   role: Role;
 
   @Column({ default: false })
-  restricted: string;
+  restricted: boolean;
 }
