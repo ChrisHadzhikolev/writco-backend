@@ -38,18 +38,19 @@ export class FollowersController {
   async followersCount(
     @Body() body,
   ): Promise<{ userId: string; count: number }> {
-    try {
-      if (!body || body.userId === '') {
-        throw new BadRequestException('No user id provided');
+    if (!body || body.userId === '') {
+      throw new BadRequestException('No user id provided');
+    }
+    this.usersService.find(body.userId).then((res) => {
+      if (!res) {
+        throw new NotFoundException('User not found');
       }
-      this.usersService.find(body.userId).then((res) => {
-        if (!res) {
-          throw new NotFoundException('User not found');
-        }
-      });
-      return await this.followersService.followersCount(body.userId);
-    } catch (e) {
-      throw new InternalServerErrorException('Follow not successful');
+    });
+    const result = await this.followersService.followersCount(body.userId);
+    if (result) {
+      return result;
+    } else {
+      throw new NotFoundException();
     }
   }
 
@@ -70,8 +71,12 @@ export class FollowersController {
       details.followerId,
       details.followedId,
     );
-    delete newFollow.id;
-    return newFollow;
+    if (newFollow) {
+      delete newFollow.id;
+      return newFollow;
+    } else {
+      throw new NotFoundException();
+    }
   }
 
   @Put()
@@ -84,11 +89,15 @@ export class FollowersController {
         throw new NotFoundException('User not found');
       }
     });
-    const newFollow = await this.followersService.unFollow(
+    const unFollow = await this.followersService.unFollow(
       details.followerId,
       details.followedId,
     );
-    delete newFollow.id;
-    return newFollow;
+    if (unFollow) {
+      delete unFollow.id;
+      return unFollow;
+    } else {
+      throw new NotFoundException();
+    }
   }
 }

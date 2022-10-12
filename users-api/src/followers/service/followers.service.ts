@@ -19,9 +19,11 @@ export class FollowersService {
   }
 
   async unFollow(followerId, followedId): Promise<Follower> {
-    return await this.followerRepository.findOne({
+    const result = await this.followerRepository.findOne({
       where: { userId: followedId, followerId: followerId },
     });
+    await this.followerRepository.delete(result.id);
+    return result;
   }
 
   async followersCount(userId): Promise<{ userId: string; count: number }> {
