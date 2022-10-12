@@ -1,28 +1,33 @@
-import {Injectable, NotImplementedException} from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { v4 as uuidv4 } from 'uuid';
-import { Role } from '../../auth/enum/roles.enum';
-import { AuthService } from '../../auth/service/auth.service';
-import {Follower} from "../../database/entities/followers.entity";
+import { Follower } from '../../database/entities/followers.entity';
 
 @Injectable()
 export class FollowersService {
   constructor(
     @InjectRepository(Follower)
-    private readonly userRepository: Repository<Follower>,
-    private authService: AuthService,
+    private readonly followerRepository: Repository<Follower>,
   ) {}
 
   async newFollower(followerId, followedId): Promise<Follower> {
-    throw new NotImplementedException('');
+    return await this.followerRepository.save({
+      userId: followedId,
+      followerId: followerId,
+      followTime: new Date(),
+    });
   }
 
   async unFollow(followerId, followedId): Promise<Follower> {
-    throw new NotImplementedException('');
+    return await this.followerRepository.findOne({
+      where: { userId: followedId, followerId: followerId },
+    });
   }
 
   async followersCount(userId): Promise<{ userId: string; count: number }> {
-    throw new NotImplementedException('');
+    return {
+      userId: userId,
+      count: await this.followerRepository.count({ where: { userId: userId } }),
+    };
   }
 }
