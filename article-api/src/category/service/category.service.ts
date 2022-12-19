@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Soundtrack } from '../../database/entities/soundtrack.entity';
+import {Category} from "../../database/entities/category.entity";
 
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectRepository(Soundtrack)
-    private readonly soundtrackRepository: Repository<Soundtrack>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 }

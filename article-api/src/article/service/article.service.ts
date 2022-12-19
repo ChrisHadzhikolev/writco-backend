@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from '../../database/entities/article.entity';
 
@@ -12,7 +12,8 @@ import { Article } from '../../database/entities/article.entity';
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
-    private readonly articleRepository: Repository<Article>,
+    private articleRepository: Repository<Article>,
+    private dataSource: DataSource,
   ) {}
 
   async create(article: Article) {
