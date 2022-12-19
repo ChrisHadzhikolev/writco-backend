@@ -7,15 +7,12 @@ import {
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from '../../database/entities/article.entity';
-import { ClientProxy } from '@nestjs/microservices';
-import { take } from 'rxjs';
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
-    @Inject('RATING_SERVICE') private readonly client: ClientProxy,
   ) {}
 
   async create(article: Article) {
@@ -23,69 +20,23 @@ export class ArticleService {
   }
 
   async getArticleValue(articleId) {
-    return new Promise((resolve) => {
-      this.client
-        .send('ratingValue', articleId)
-        .pipe(take(1))
-        .subscribe((res: any) => {
-          if (res.statusCode == 200) {
-            resolve(res.data);
-          } else {
-            throw new InternalServerErrorException();
-          }
-        });
-    });
+
   }
 
   async getUserRating(params) {
-    return new Promise((resolve) => {
-      this.client
-        .send('getUserRating', params)
-        .pipe(take(1))
-        .subscribe((res: any) => {
-          if (res.data) {
-            resolve(res.data);
-          } else {
-            return null;
-          }
-        });
-    });
+
   }
 
-  // TODO check if article exists
   async createArticleRating(params) {
-    return new Promise((resolve) => {
-      this.client
-        .send('createRating', params)
-        .pipe(take(1))
-        .subscribe((res: any) => {
-          if (res.data) {
-            resolve(res.data);
-          } else {
-            throw new NotFoundException();
-          }
-        });
-    });
+
   }
 
-  //TODO check if article exists
   async changeRating(params) {
-    return new Promise((resolve) => {
-      this.client
-        .send('changeRating', params)
-        .pipe(take(1))
-        .subscribe((res: any) => {
-          if (res.data) {
-            resolve(res.data);
-          } else {
-            throw new NotFoundException();
-          }
-        });
-    });
+
   }
 
   async getArticleById(id: string) {
-    return await this.articleRepository.findOne(id);
+    return await this.articleRepository.findOne({ where: { id: id } });
   }
 
   async getAllPublic() {
@@ -101,7 +52,7 @@ export class ArticleService {
   }
 
   async setArticlePrivacy(id: string) {
-    const articleObj = await this.articleRepository.findOne(id);
+    const articleObj = await this.articleRepository.findOne({ where: { id: id } });
     articleObj.isPrivate = !articleObj.isPrivate;
     return await this.articleRepository.save(articleObj);
   }
